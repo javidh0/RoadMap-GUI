@@ -71,4 +71,4 @@ class RoadMap(Formate):
         pass
 
 class EncryptDta:
-    pass
+    __key = b'SzwHFgWh4A6xjZlBHHNCM0JkDaq2l8sBiLMX7Tq_MHc='
