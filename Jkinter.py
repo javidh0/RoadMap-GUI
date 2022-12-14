@@ -70,3 +70,5 @@ class RoadMap(Formate):
     def onClick(self):
         pass
 
+class EncryptDta:
+    pass
