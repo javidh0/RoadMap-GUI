@@ -1,2 +1,7 @@
 RoadMap,Task,Progress,Type,About
-R1, r1t1, 0, 1, Nothing to say
+R1,r1t1,0,1,Nothing to say
+R1,r1t2,10,1,Something to say
+R2,r2t1,5,2,Hello 
+R1,r1t3,7.5,1,Testing
+R2,r2t2,8,2,Something
+R3,r3t1,20,1,Nothing
