@@ -1,5 +1,6 @@
 from tkinter import *
 import pyautogui as pyg
+import pandas as pd
 pyg
 class Formate(object):
     _font = {1: "Consolas", 2:"Consolas"}
@@ -9,7 +10,6 @@ class Formate(object):
     _dFont= {1: "Consolas", 2:"Consolas"}
     _dColor= {1: "grey20", 2:"grey50"}
     _dSize = {1: 15, 2: 12}
-
 
 class SubTask(Formate):
     __name = None
@@ -66,9 +66,29 @@ class RoadMap(Formate):
         self.__btn = Button(tk, text=self.__name, font=(self._font[self.__type], self._size[self.__type]))
         self.__btn['text'] += (" "+str(self.__progress))
         return self.__btn
+    
+    def getTask(self):
+        return self.__subtask
 
     def onClick(self):
         pass
 
+class Data:
+    __file = "data\data.csv"
+    __df = pd.read_csv(__file)
+    def initialize(self) -> list[RoadMap]:
+        TskObj = dict()
+        toReturn = []
+        for indx in range(self.__df.shape[0]):
+            row = self.__df.iloc[indx]
+            if not row['RoadMap'] in list(TskObj.keys()):
+                TskObj[row['RoadMap']] = []
+            obj = SubTask(row['Task'], row['About'], row['Progress'], row['Type'])
+            TskObj[row['RoadMap']].append(obj)
+        for tsk in TskObj.keys():
+            temp = RoadMap(TskObj[tsk], tsk)
+            toReturn.append(temp)
+        return toReturn
+            
 class EncryptDta:
     __key = b'SzwHFgWh4A6xjZlBHHNCM0JkDaq2l8sBiLMX7Tq_MHc='
