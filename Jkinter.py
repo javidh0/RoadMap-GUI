@@ -6,7 +6,7 @@ class MainWindow:
     pass
 
 class Formate(object):
-    _font = {1: "Consolas", 2:"Consolas"}
+    _font = {1: ("Consolas", 15), 2:("Consolas", 15)}
     _color= {1: "grey", 2:"grey30"}
     _size = {1: 15, 2: 15}
 
@@ -17,6 +17,7 @@ class Formate(object):
     _dSize = {1: 15, 2: 12}
 
     completed = {'colour' : 'green'}
+
 
 class SubTask(Formate):
     __name = None
@@ -34,7 +35,7 @@ class SubTask(Formate):
         return self
 
     def create(self, tk):
-        self.__btn = Button(tk, text=self.__name, font=(self._font[self.__type], self._size[self.__type]), width=15)
+        self.__btn = Button(tk, text=self.__name, font=self._font[self.__type], width=15)
         self.__btn['bg'] = self._color[self.__type]
         self.__btn['command'] = self.__onClick
         if self.progress > 90:
@@ -63,7 +64,7 @@ class RoadMap(Formate):
         self.__progress = self.__sum // len(self.__subtask)
 
     def create(self, tk):
-        self.__btn = Button(tk, text=self.__name, font=(self._font[self.__type], self._size[self.__type]), width=15)
+        self.__btn = Button(tk, text=self.__name, font=self._font[self.__type], width=15)
         self.__btn['text'] += (" "+str(self.__progress))
         return self.__btn
     
@@ -113,6 +114,10 @@ class MainWindow(Formate):
         toolFrm.place(relx=0.01, rely=0.98, relheight=0.48, relwidth=0.38, anchor=SW)
         rdFrm = LabelFrame(self.__rt)
         rdFrm.place(relx=0.98, rely=0.98, relheight=0.96, relwidth=0.58, anchor=SE)
+
+        Button(rdFrm, text="+5%", font=())
+    def __refresh(self):
+        pass
 
     def Select(self, obj:SubTask):
         self.__sel = obj
