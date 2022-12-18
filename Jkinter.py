@@ -6,18 +6,17 @@ class MainWindow:
     pass
 
 class Formate(object):
-    _font = {1: ("Consolas", 15), 2:("Consolas", 15)}
+    _font = {1: ("Consolas", 15), 2:("Consolas", 15), 'res' : ("Consolas", 15)}
     _color= {1: "grey", 2:"grey30"}
-    _size = {1: 15, 2: 15}
+    _size = {1: 18, 2: 18}
 
     _Title = "RoadMap"
 
-    _dFont= {1: "Consolas", 2:"Consolas"}
-    _dColor= {1: "grey20", 2:"grey50"}
-    _dSize = {1: 15, 2: 12}
+    _dFont= {1: "Consolas", 2:"Consolas", 'res' : "Consolas", 'res1':"Consolas"}
+    _dColor= {1: "grey20", 2:"grey50", 'res' : 'Black', 'res1': 'grey30'}
+    _dSize = {1: 15, 2: 12, 'res':25, 'res1':18}
 
     completed = {'colour' : 'green'}
-
 
 class SubTask(Formate):
     __name = None
@@ -41,7 +40,8 @@ class SubTask(Formate):
         if self.progress > 90:
             self.__btn['bg'] = self.completed['colour']
         return self.__btn
-
+    def getData(self) -> list:
+        return [self.__name, self.progress, self.__About]
     def edit():
         pass
 
@@ -94,38 +94,68 @@ class Data:
 class MainWindow(Formate):
     __rt = None
     __sel:SubTask= None
+    __toolFrm = None
+    __desFrm = None
+    __rdFrm = None
+    __obj = None
 
-    def __init__(self) -> None:
+    def __init__(self, objlist) -> None:
         self.__rt = Tk()
         self.__rt.geometry("1000x1000")
         self.__rt.title(self._Title)
         width = self.__rt.winfo_screenwidth() - 50
         height = self.__rt.winfo_screenheight() - 50
         self.__rt.geometry('%dx%d'%(width, height))
+        self.__obj = objlist
+        self.__sel = objlist[2]
 
     def __clrScr(self):
         for x in self.__rt.winfo_children():
             x.destroy()
+    
+    def __edit(self):
+        print("edit")
+    def __editD(self):
+        print("edit des")
+    def __p(self, i:int = 10):
+        print("progress "+str(i))
+    def __save(self):
+        print("Save")
+    def __open(self):
+        print("Open")
+    
     def RoadMapWindow(self):
         self.__clrScr()
-        desFrm = LabelFrame(self.__rt)
-        desFrm.place(relx=0.01, rely=0.01, relheight=0.48, relwidth=0.38, anchor=NW)
-        toolFrm= LabelFrame(self.__rt)
-        toolFrm.place(relx=0.01, rely=0.98, relheight=0.48, relwidth=0.38, anchor=SW)
-        rdFrm = LabelFrame(self.__rt)
-        rdFrm.place(relx=0.98, rely=0.98, relheight=0.96, relwidth=0.58, anchor=SE)
+        self.__desFrm = LabelFrame(self.__rt)
+        self.__desFrm.place(relx=0.01, rely=0.01, relheight=0.48, relwidth=0.38, anchor=NW)
+        self.__toolFrm= LabelFrame(self.__rt)
+        self.__toolFrm.place(relx=0.01, rely=0.98, relheight=0.48, relwidth=0.38, anchor=SW)
+        self.__rdFrm = LabelFrame(self.__rt)
+        self.__rdFrm.place(relx=0.98, rely=0.98, relheight=0.96, relwidth=0.58, anchor=SE)
 
-        Button(rdFrm, text="+5%", font=())
-    def __refresh(self):
-        pass
+        Button(self.__toolFrm, text="+5%", font=self._font['res'], width=20, command=lambda:self.__p(5)).pack(pady=10)
+        Button(self.__toolFrm, text="+10%", font=self._font['res'], width=20, command=self.__p).pack(pady=10)
+        Button(self.__toolFrm, text="Edit Name%", font=self._font['res'], width=20, command=self.__edit).pack(pady=10)
+        Button(self.__toolFrm, text="Edit Descrpition", font=self._font['res'], width=20, command=self.__editD).pack(pady=10)
+        Button(self.__toolFrm, text="Save", font=self._font['res'], width=20, command=self.__save).pack(pady=10)
+        Button(self.__toolFrm, text="Open", font=self._font['res'], width=20, command=self.__open).pack(pady=10)
+        self.__refresh()
 
+    def __refresh(self, op:int = 1) -> None:
+        if(op==1):  #Refresh Description
+            for wid in self.__desFrm.winfo_children():
+                wid.destroy()
+            dta = self.__sel.getData()
+            Label(self.__desFrm, text=str(dta[0]), font=(self._dFont['res'], self._dSize['res'])).pack(anchor=W,pady=20, padx=5)
+            Label(self.__desFrm, text="Progress "+ str(dta[1]) +"%", font=(self._dFont['res1'], self._dSize['res1']), fg=self._dColor['res1']).pack(anchor=W, pady=10, padx=10)
+            Label(self.__desFrm, text= str(dta[2]), font=(self._dFont['res1'], self._dSize['res1']), fg=self._dColor['res1']).pack(anchor=W, pady=10, padx=10)
+            
     def Select(self, obj:SubTask):
         self.__sel = obj
         
     def Enable(self):
         self.__rt.mainloop()
         
-
 class Window:
     __frm:Frame = None
     __title = None
