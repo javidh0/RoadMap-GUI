@@ -11,6 +11,8 @@ class Formate(object):
     _dColor= {1: "grey20", 2:"grey50"}
     _dSize = {1: 15, 2: 12}
 
+    completed = {'colour' : 'green'}
+
 class SubTask(Formate):
     __name = None
     __About = None
@@ -36,9 +38,11 @@ class SubTask(Formate):
         root.mainloop()
 
     def create(self, tk):
-        self.__btn = Button(tk, text=self.__name, font=(self._font[self.__type], self._size[self.__type]))
+        self.__btn = Button(tk, text=self.__name, font=(self._font[self.__type], self._size[self.__type]), width=15)
         self.__btn['bg'] = self._color[self.__type]
         self.__btn['command'] = self.__onClick
+        if self.progress > 90:
+            self.__btn['bg'] = self.completed['colour']
         return self.__btn
 
     def edit():
@@ -63,7 +67,7 @@ class RoadMap(Formate):
         self.__progress = self.__sum // len(self.__subtask)
 
     def create(self, tk):
-        self.__btn = Button(tk, text=self.__name, font=(self._font[self.__type], self._size[self.__type]))
+        self.__btn = Button(tk, text=self.__name, font=(self._font[self.__type], self._size[self.__type]), width=15)
         self.__btn['text'] += (" "+str(self.__progress))
         return self.__btn
     
@@ -91,7 +95,13 @@ class Data:
         return toReturn
 
 class Window:
-    __rt:Tk = None
+    __frm:Frame = None
+    __title = None
+    __state = False
+
+    def __init__(self, frm:Frame, title) -> None:
+        self.__frm = frm
+        self.__title = title
 
 class Security:
     pass
