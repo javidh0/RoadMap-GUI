@@ -6,7 +6,7 @@ class MainWindow:
     pass
 
 class Formate(object):
-    _font = {1: ("Consolas", 15), 2:("Consolas", 15), 'res' : ("Consolas", 15)}
+    _font = {1: ("Consolas", 15), 2:("Consolas", 15), 'res' : ("Consolas", 15), 'res1':("Consolas", 25)}
     _color= {1: "grey", 2:"grey30"}
     _size = {1: 18, 2: 18}
 
@@ -30,8 +30,8 @@ class SubTask(Formate):
         self.progress = progress
         self.__type = type
 
-    def __onClick(self, win:MainWindow):
-        return self
+    def __onClick(self):
+        pass
 
     def create(self, tk):
         self.__btn = Button(tk, text=self.__name, font=self._font[self.__type], width=15)
@@ -97,7 +97,7 @@ class MainWindow(Formate):
     __toolFrm = None
     __desFrm = None
     __rdFrm = None
-    __obj = None
+    __obj:list[SubTask] = None
 
     def __init__(self, objlist) -> None:
         self.__rt = Tk()
@@ -107,7 +107,7 @@ class MainWindow(Formate):
         height = self.__rt.winfo_screenheight() - 50
         self.__rt.geometry('%dx%d'%(width, height))
         self.__obj = objlist
-        self.__sel = objlist[2]
+        self.__sel = objlist[0]
 
     def __clrScr(self):
         for x in self.__rt.winfo_children():
@@ -139,17 +139,22 @@ class MainWindow(Formate):
         Button(self.__toolFrm, text="Edit Descrpition", font=self._font['res'], width=20, command=self.__editD).pack(pady=10)
         Button(self.__toolFrm, text="Save", font=self._font['res'], width=20, command=self.__save).pack(pady=10)
         Button(self.__toolFrm, text="Open", font=self._font['res'], width=20, command=self.__open).pack(pady=10)
-        self.__refresh()
+        self.__refresh(op = 0)
 
     def __refresh(self, op:int = 1) -> None:
-        if(op==1):  #Refresh Description
+        if(op==1 or op ==0):  #Refresh Description
             for wid in self.__desFrm.winfo_children():
                 wid.destroy()
             dta = self.__sel.getData()
             Label(self.__desFrm, text=str(dta[0]), font=(self._dFont['res'], self._dSize['res'])).pack(anchor=W,pady=20, padx=5)
             Label(self.__desFrm, text="Progress "+ str(dta[1]) +"%", font=(self._dFont['res1'], self._dSize['res1']), fg=self._dColor['res1']).pack(anchor=W, pady=10, padx=10)
             Label(self.__desFrm, text= str(dta[2]), font=(self._dFont['res1'], self._dSize['res1']), fg=self._dColor['res1']).pack(anchor=W, pady=10, padx=10)
-            
+        if(op==2 or op == 0):
+            Label(self.__rdFrm, text=u'\u2193', font=("Consolas", 25)).pack(pady=5)
+            for btn in self.__obj:
+                btn.create(self.__rdFrm).pack(pady=5)
+                Label(self.__rdFrm, text=u'\u2193', font=("Consolas", 25)).pack(pady=5)
+
     def Select(self, obj:SubTask):
         self.__sel = obj
         
