@@ -4,7 +4,7 @@ import pandas as pd
 pyg
 class Formate(object):
     _font = {1: "Consolas", 2:"Consolas"}
-    _color= {1: "grey", 2:"black"}
+    _color= {1: "grey", 2:"grey30"}
     _size = {1: 15, 2: 15}
 
     _dFont= {1: "Consolas", 2:"Consolas"}
@@ -89,6 +89,12 @@ class Data:
             temp = RoadMap(TskObj[tsk], tsk)
             toReturn.append(temp)
         return toReturn
-            
+
+class Window:
+    __rt:Tk = None
+
+class Security:
+    pass
+
 class EncryptDta:
     __key = b'SzwHFgWh4A6xjZlBHHNCM0JkDaq2l8sBiLMX7Tq_MHc='
