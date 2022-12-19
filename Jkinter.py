@@ -125,7 +125,7 @@ class MainWindow(Formate):
     __rdFrm = None
     __RdMap:RoadMap = None
     __obj:list[SubTask] = None
-
+    
     def __init__(self, obj:RoadMap) -> None:
         self.__rt = Tk()
         self.__rt.geometry("1000x1000")
@@ -199,7 +199,7 @@ class MainWindow(Formate):
         
     def Enable(self):
         self.__rt.mainloop()
-        
+
 class Hash:
     __aph = string.ascii_lowercase
     __num = list(map(str, range(0,10)))
