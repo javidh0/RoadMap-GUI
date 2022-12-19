@@ -1,6 +1,7 @@
 from tkinter import *
 import pyautogui as pyg
 import pandas as pd
+import string, random
 pyg
 class MainWindow:
     pass
@@ -114,6 +115,8 @@ class Data:
         return toReturn
     def Save(obj:SubTask):
         pass
+    def getHash(self):
+        return tuple(self.__df['Hash'])
 
 class MainWindow(Formate):
     __rt = None
@@ -197,6 +200,22 @@ class MainWindow(Formate):
     def Enable(self):
         self.__rt.mainloop()
         
+class Hash:
+    __aph = string.ascii_lowercase
+    __num = list(map(str, range(0,10)))
+    __sym = "!@#$%^&*()"
+    __code = ''
+    
+    def GenerateCode(self):
+        dta = Data().getHash()
+        self.__code = ''
+        self.__code += ( random.choice(self.__aph) + random.choice(self.__aph) + random.choice(self.__aph) )
+        self.__code += ( random.choice(self.__num) + random.choice(self.__num) )
+        self.__code += random.choice(self.__sym)
+        if self.__code in dta:
+            self.GenerateCode()
+        return self.__code    
+
 class Window:
     __frm:Frame = None
     __title = None
