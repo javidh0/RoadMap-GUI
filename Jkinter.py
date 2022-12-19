@@ -5,6 +5,23 @@ pyg
 class MainWindow:
     pass
 
+class Selected:
+    __sel = None
+    __win:MainWindow = None
+    def initialize(self, win:MainWindow, obj):
+        self.__win = win
+        self.__sel = obj
+    def get(self):
+        return self.__sel
+    def set(self, obj, ref = True):
+        self.__sel = obj
+        if ref:
+            self.__win.refresh(1)
+        if not ref:
+            self.__win.refresh(0)
+
+Selector = Selected()
+
 class Formate(object):
     _font = {1: ("Consolas", 15), 2:("Consolas", 15), 'res' : ("Consolas", 15), 'res1':("Consolas", 25)}
     _color= {1: "grey", 2:"grey30"}
@@ -31,7 +48,7 @@ class SubTask(Formate):
         self.__type = type
 
     def __onClick(self):
-        pass
+        Selector.set(self)
 
     def create(self, tk):
         self.__btn = Button(tk, text=self.__name, font=self._font[self.__type], width=15)
@@ -93,22 +110,30 @@ class Data:
 
 class MainWindow(Formate):
     __rt = None
-    __sel:SubTask= None
     __toolFrm = None
     __desFrm = None
     __rdFrm = None
+    __RdMap:RoadMap = None
     __obj:list[SubTask] = None
 
-    def __init__(self, objlist) -> None:
+    def __init__(self, obj:RoadMap) -> None:
         self.__rt = Tk()
         self.__rt.geometry("1000x1000")
         self.__rt.title(self._Title)
         width = self.__rt.winfo_screenwidth() - 50
         height = self.__rt.winfo_screenheight() - 50
         self.__rt.geometry('%dx%d'%(width, height))
+        objlist = obj.getTask()
+        self.__RdMap = obj
         self.__obj = objlist
-        self.__sel = objlist[0]
-
+        Selector.initialize(self, objlist[0])
+    
+    def ChangeRd(self, obj:RoadMap):
+        self.__RdMap = obj
+        objlist = obj.getTask()
+        self.__obj = objlist
+        Selector.set(objlist[0], False)
+    
     def __clrScr(self):
         for x in self.__rt.winfo_children():
             x.destroy()
@@ -139,17 +164,19 @@ class MainWindow(Formate):
         Button(self.__toolFrm, text="Edit Descrpition", font=self._font['res'], width=20, command=self.__editD).pack(pady=10)
         Button(self.__toolFrm, text="Save", font=self._font['res'], width=20, command=self.__save).pack(pady=10)
         Button(self.__toolFrm, text="Open", font=self._font['res'], width=20, command=self.__open).pack(pady=10)
-        self.__refresh(op = 0)
+        self.refresh(op = 0)
 
-    def __refresh(self, op:int = 1) -> None:
+    def refresh(self, op:int = 1) -> None:
         if(op==1 or op ==0):  #Refresh Description
             for wid in self.__desFrm.winfo_children():
                 wid.destroy()
-            dta = self.__sel.getData()
+            dta = Selector.get().getData()
             Label(self.__desFrm, text=str(dta[0]), font=(self._dFont['res'], self._dSize['res'])).pack(anchor=W,pady=20, padx=5)
             Label(self.__desFrm, text="Progress "+ str(dta[1]) +"%", font=(self._dFont['res1'], self._dSize['res1']), fg=self._dColor['res1']).pack(anchor=W, pady=10, padx=10)
             Label(self.__desFrm, text= str(dta[2]), font=(self._dFont['res1'], self._dSize['res1']), fg=self._dColor['res1']).pack(anchor=W, pady=10, padx=10)
         if(op==2 or op == 0):
+            for wid in self.__rdFrm.winfo_children():
+                wid.destroy()
             Label(self.__rdFrm, text=u'\u2193', font=("Consolas", 25)).pack(pady=5)
             for btn in self.__obj:
                 btn.create(self.__rdFrm).pack(pady=5)
