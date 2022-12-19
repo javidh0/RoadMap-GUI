@@ -59,8 +59,11 @@ class SubTask(Formate):
         return self.__btn
     def getData(self) -> list:
         return [self.__name, self.progress, self.__About]
-    def edit():
-        pass
+    def edit(self, name = __name, about = __About, prog = progress, type = __type):
+        self.__name = name
+        self.__About= about
+        self.progress= prog
+        self.__type = type
 
     def save_in_file():
         pass
