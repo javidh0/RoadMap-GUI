@@ -41,11 +41,13 @@ class SubTask(Formate):
     progress = None
     __type = None
     __btn = None
-    def __init__(self, title:str = "Unknown Task", Note:str = "", progress:int = 0, type:int = 1) -> None:
+    __hash:str = None
+    def __init__(self, title:str = "Unknown Task", Note:str = "", progress:int = 0, type:int = 1, hash:str = "") -> None:
         self.__name = title
         self.__About = Note
         self.progress = progress
         self.__type = type
+        self.__hash = hash
 
     def __onClick(self):
         Selector.set(self)
@@ -58,7 +60,7 @@ class SubTask(Formate):
             self.__btn['bg'] = self.completed['colour']
         return self.__btn
     def getData(self) -> list:
-        return [self.__name, self.progress, self.__About]
+        return [self.__name, self.progress, self.__About, self.__hash]
     def edit(self, name = __name, about = __About, prog = progress, type = __type):
         self.__name = name
         self.__About= about
@@ -104,12 +106,14 @@ class Data:
             row = self.__df.iloc[indx]
             if not row['RoadMap'] in list(TskObj.keys()):
                 TskObj[row['RoadMap']] = []
-            obj = SubTask(row['Task'], row['About'], row['Progress'], row['Type'])
+            obj = SubTask(row['Task'], row['About'], row['Progress'], row['Type'], row['Hash'])
             TskObj[row['RoadMap']].append(obj)
         for tsk in TskObj.keys():
             temp = RoadMap(TskObj[tsk], tsk)
             toReturn.append(temp)
         return toReturn
+    def Save(obj:SubTask):
+        pass
 
 class MainWindow(Formate):
     __rt = None
@@ -177,6 +181,8 @@ class MainWindow(Formate):
             Label(self.__desFrm, text=str(dta[0]), font=(self._dFont['res'], self._dSize['res'])).pack(anchor=W,pady=20, padx=5)
             Label(self.__desFrm, text="Progress "+ str(dta[1]) +"%", font=(self._dFont['res1'], self._dSize['res1']), fg=self._dColor['res1']).pack(anchor=W, pady=10, padx=10)
             Label(self.__desFrm, text= str(dta[2]), font=(self._dFont['res1'], self._dSize['res1']), fg=self._dColor['res1']).pack(anchor=W, pady=10, padx=10)
+            Label(self.__desFrm, text="Hash Code : " + str(dta[3]), font=(self._dFont['res1'], self._dSize['res1']), fg=self._dColor['res1']).pack(anchor=W, pady=10, padx=10)
+
         if(op==2 or op == 0):
             for wid in self.__rdFrm.winfo_children():
                 wid.destroy()
