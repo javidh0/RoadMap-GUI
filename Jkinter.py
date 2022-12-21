@@ -67,7 +67,8 @@ class SubTask(Formate):
         self.__About= about
         self.progress= prog
         self.__type = type
-
+    def getIndex(self):
+        return self.__hash
     def save_in_file():
         pass
 
@@ -103,8 +104,8 @@ class Data:
         __df = pd.read_csv(self.__file)
         TskObj = dict()
         toReturn = []
-        for indx in range(self.__df.shape[0]):
-            row = self.__df.iloc[indx]
+        for indx in range(__df.shape[0]):
+            row = __df.iloc[indx]
             if not row['RoadMap'] in list(TskObj.keys()):
                 TskObj[row['RoadMap']] = []
             obj = SubTask(row['Task'], row['About'], row['Progress'], row['Type'], row['Hash'])
@@ -116,9 +117,14 @@ class Data:
     def Save(obj:SubTask):
         pass
     def getHash(self):
-        return tuple(self.__df['Hash'])
+        __df = pd.read_csv(self.__file)
+        return tuple(__df['Hash'])
     def increment(self, x:int, obj:SubTask):
-        pass
+        df = pd.read_csv(self.__file)
+        df.set_index('Hash' , inplace=True)
+        
+        print(df[obj.getIndex()])
+        
 
 class MainWindow(Formate):
     __rt = None
@@ -156,6 +162,8 @@ class MainWindow(Formate):
         print("edit des")
     def __p(self, i:int = 10):
         print("progress "+str(i))
+        dt = Data()
+        dt.increment(i, Selector.get())
     def __save(self):
         print("Save")
     def __open(self):
