@@ -99,8 +99,8 @@ class RoadMap(Formate):
 
 class Data:
     __file = "data\data.csv"
-    __df = pd.read_csv(__file)
     def initialize(self) -> list[RoadMap]:
+        __df = pd.read_csv(self.__file)
         TskObj = dict()
         toReturn = []
         for indx in range(self.__df.shape[0]):
@@ -117,6 +117,8 @@ class Data:
         pass
     def getHash(self):
         return tuple(self.__df['Hash'])
+    def increment(self, x:int, obj:SubTask):
+        pass
 
 class MainWindow(Formate):
     __rt = None
