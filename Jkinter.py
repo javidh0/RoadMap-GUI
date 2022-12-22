@@ -52,6 +52,11 @@ class SubTask(Formate):
 
     def __onClick(self):
         Selector.set(self)
+    def change(self, title:str = __name , Note:str = __About, progress:int = progress, type:int = __type):
+        self.__name = title
+        self.__About = Note
+        self.progress = progress
+        self.__type = type
 
     def create(self, tk):
         self.__btn = Button(tk, text=self.__name, font=self._font[self.__type], width=15)
@@ -100,6 +105,8 @@ class RoadMap(Formate):
 
 class Data:
     __file = "data\data.csv"
+    def reWrite(self, df:pd.DataFrame):
+        df.to_csv(self.__file, index=True)
     def initialize(self) -> list[RoadMap]:
         __df = pd.read_csv(self.__file)
         TskObj = dict()
@@ -123,7 +130,12 @@ class Data:
         df = pd.read_csv(self.__file)
         df.set_index('Hash' , inplace=True)
         
-        print(df[obj.getIndex()])
+        buf = df.loc[obj.getIndex()]
+        buf['Progress'] = buf['Progress'] + x
+        df.loc[obj.getIndex()] = buf
+        self.reWrite(df)
+
+        obj.change(buf['Task'], buf['About'], buf['Progress'], buf['Type'])
         
 
 class MainWindow(Formate):
@@ -164,6 +176,7 @@ class MainWindow(Formate):
         print("progress "+str(i))
         dt = Data()
         dt.increment(i, Selector.get())
+        self.refresh()
     def __save(self):
         print("Save")
     def __open(self):
