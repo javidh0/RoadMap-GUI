@@ -136,6 +136,16 @@ class Data:
         self.reWrite(df)
 
         obj.change(buf['Task'], buf['About'], buf['Progress'], buf['Type'])
+    def EditName(self, s:str, obj:SubTask):
+        df = pd.read_csv(self.__file)
+        df.set_index('Hash' , inplace=True)
+        
+        buf = df.loc[obj.getIndex()]
+        buf['Task'] = s
+        df.loc[obj.getIndex()] = buf
+        self.reWrite(df)
+
+        obj.change(buf['Task'], buf['About'], buf['Progress'], buf['Type'])
         
 
 class MainWindow(Formate):
@@ -192,10 +202,12 @@ class MainWindow(Formate):
         dt = Data()
         dt.increment(i, Selector.get())
         self.refresh()
-    def __save(self, ):
-        print(self.__ent.get())
-        self.__save_btn['state'] = 'normal'
-        self.refresh()
+    def __save(self):
+        s = (self.__ent.get())
+        dt = Data()
+        dt.EditName(s, Selector.get())
+        self.__save_btn['state'] = 'disabled'
+        self.refresh(op = 0)
     def __open(self):
         print("Open")
     
