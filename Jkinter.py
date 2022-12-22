@@ -141,10 +141,12 @@ class Data:
 class MainWindow(Formate):
     __rt = None
     __toolFrm = None
-    __desFrm = None
+    __desFrm:LabelFrame = None
     __rdFrm = None
     __RdMap:RoadMap = None
     __obj:list[SubTask] = None
+    __ent:Entry = None
+    __save_btn:Button = None
     
     def __init__(self, obj:RoadMap) -> None:
         self.__rt = Tk()
@@ -157,6 +159,7 @@ class MainWindow(Formate):
         self.__RdMap = obj
         self.__obj = objlist
         Selector.initialize(self, objlist[0])
+        self.__ent = Entry(self.__desFrm, width=25, font=(self._dFont['res'], self._dSize['res']))
     
     def ChangeRd(self, obj:RoadMap):
         self.__RdMap = obj
@@ -170,6 +173,18 @@ class MainWindow(Formate):
     
     def __edit(self):
         print("edit")
+        self.__save_btn['state'] = "normal"
+        for x in self.__desFrm.winfo_children():
+            x.destroy()
+        dta = Selector.get().getData()
+        self.__ent = Entry(self.__desFrm, width=25, font=(self._dFont['res'], self._dSize['res']))
+        self.__ent.pack(anchor=W,pady=20, padx=5)
+        self.__ent.insert(0, dta[0])
+        Label(self.__desFrm, text="Progress "+ str(dta[1]) +"%", font=(self._dFont['res1'], self._dSize['res1']), fg=self._dColor['res1']).pack(anchor=W, pady=10, padx=10)
+        Label(self.__desFrm, text= str(dta[2]), font=(self._dFont['res1'], self._dSize['res1']), fg=self._dColor['res1']).pack(anchor=W, pady=10, padx=10)
+        Label(self.__desFrm, text="Hash Code : " + str(dta[3]), font=(self._dFont['res1'], self._dSize['res1']), fg=self._dColor['res1']).pack(anchor=W, pady=10, padx=10)
+        
+
     def __editD(self):
         print("edit des")
     def __p(self, i:int = 10):
@@ -177,8 +192,10 @@ class MainWindow(Formate):
         dt = Data()
         dt.increment(i, Selector.get())
         self.refresh()
-    def __save(self):
-        print("Save")
+    def __save(self, ):
+        print(self.__ent.get())
+        self.__save_btn['state'] = 'normal'
+        self.refresh()
     def __open(self):
         print("Open")
     
@@ -193,9 +210,11 @@ class MainWindow(Formate):
 
         Button(self.__toolFrm, text="+5%", font=self._font['res'], width=20, command=lambda:self.__p(5)).pack(pady=10)
         Button(self.__toolFrm, text="+10%", font=self._font['res'], width=20, command=self.__p).pack(pady=10)
-        Button(self.__toolFrm, text="Edit Name%", font=self._font['res'], width=20, command=self.__edit).pack(pady=10)
+        Button(self.__toolFrm, text="Edit Name", font=self._font['res'], width=20, command=self.__edit).pack(pady=10)
         Button(self.__toolFrm, text="Edit Descrpition", font=self._font['res'], width=20, command=self.__editD).pack(pady=10)
-        Button(self.__toolFrm, text="Save", font=self._font['res'], width=20, command=self.__save).pack(pady=10)
+        self.__save_btn=Button(self.__toolFrm, text="Save", font=self._font['res'], width=20, command=self.__save)
+        self.__save_btn.pack(pady=10)
+        self.__save_btn['state'] = "disabled"
         Button(self.__toolFrm, text="Open", font=self._font['res'], width=20, command=self.__open).pack(pady=10)
         self.refresh(op = 0)
 
