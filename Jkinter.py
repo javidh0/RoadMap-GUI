@@ -234,8 +234,9 @@ class MainWindow(Formate):
         self.__rdFrm = LabelFrame(self.__rt)
         self.__rdFrm.place(relx=0.98, rely=0.98, relheight=0.96, relwidth=0.58, anchor=SE)
 
+        Button(self.__toolFrm, text="+1%", font=self._font['res'], width=20, command=lambda:self.__p(1)).pack(pady=10)
         Button(self.__toolFrm, text="+5%", font=self._font['res'], width=20, command=lambda:self.__p(5)).pack(pady=10)
-        Button(self.__toolFrm, text="+10%", font=self._font['res'], width=20, command=self.__p).pack(pady=10)
+        Button(self.__toolFrm, text="-5%", font=self._font['res'], width=20, command=lambda:self.__p(-5)).pack(pady=10)
         Button(self.__toolFrm, text="Edit", font=self._font['res'], width=20, command=self.__edit).pack(pady=10)
         self.__save_btn=Button(self.__toolFrm, text="Save", font=self._font['res'], width=20, command=self.__save)
         self.__save_btn.pack(pady=10)
