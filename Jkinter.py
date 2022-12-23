@@ -139,9 +139,19 @@ class Data:
     def EditName(self, s:str, obj:SubTask):
         df = pd.read_csv(self.__file)
         df.set_index('Hash' , inplace=True)
-        
+
         buf = df.loc[obj.getIndex()]
         buf['Task'] = s
+        df.loc[obj.getIndex()] = buf
+        self.reWrite(df)
+
+        obj.change(buf['Task'], buf['About'], buf['Progress'], buf['Type'])
+    def EditDes(self, s:str, obj:SubTask):
+        df = pd.read_csv(self.__file)
+        df.set_index('Hash' , inplace=True)
+
+        buf = df.loc[obj.getIndex()]
+        buf['About'] = s
         df.loc[obj.getIndex()] = buf
         self.reWrite(df)
 
@@ -157,6 +167,7 @@ class MainWindow(Formate):
     __obj:list[SubTask] = None
     __ent:Entry = None
     __save_btn:Button = None
+    __desBx:Text = None
     
     def __init__(self, obj:RoadMap) -> None:
         self.__rt = Tk()
@@ -170,6 +181,7 @@ class MainWindow(Formate):
         self.__obj = objlist
         Selector.initialize(self, objlist[0])
         self.__ent = Entry(self.__desFrm, width=25, font=(self._dFont['res'], self._dSize['res']))
+        self.__desBx = Text(self.__desFrm, width=25, font=(self._dFont['res'], self._dSize['res']))
     
     def ChangeRd(self, obj:RoadMap):
         self.__RdMap = obj
@@ -196,7 +208,19 @@ class MainWindow(Formate):
         
 
     def __editD(self):
-        print("edit des")
+        print("edit")
+        self.__save_btn['state'] = "normal"
+        for x in self.__desFrm.winfo_children():
+            x.destroy()
+        dta = Selector.get().getData()
+        self.__desBx = Text(self.__desFrm, width=25, font=(self._dFont['res'], self._dSize['res']))
+        self.__desBx.pack(anchor=W,pady=20, padx=5)
+        self.__desBx.insert(0, dta[2])
+        Label(self.__desFrm, text=str(dta[0]), font=(self._dFont['res'], self._dSize['res'])).pack(anchor=W,pady=20, padx=5)
+        Label(self.__desFrm, text="Progress "+ str(dta[1]) +"%", font=(self._dFont['res1'], self._dSize['res1']), fg=self._dColor['res1']).pack(anchor=W, pady=10, padx=10)
+        Label(self.__desFrm, text="Hash Code : " + str(dta[3]), font=(self._dFont['res1'], self._dSize['res1']), fg=self._dColor['res1']).pack(anchor=W, pady=10, padx=10)
+
+        
     def __p(self, i:int = 10):
         print("progress "+str(i))
         dt = Data()
@@ -204,8 +228,10 @@ class MainWindow(Formate):
         self.refresh()
     def __save(self):
         s = (self.__ent.get())
+        d = (self.__desBx.get(0, END))
         dt = Data()
         dt.EditName(s, Selector.get())
+        dt.EditDes(d, Selector.get())
         self.__save_btn['state'] = 'disabled'
         self.refresh(op = 0)
     def __open(self):
