@@ -223,7 +223,16 @@ class MainWindow(Formate):
         self.__save_btn['state'] = 'disabled'
         self.refresh(op = 0)
     def __open(self):
-        print("Open")
+        root = Tk()
+        root.geometry("500x350")
+    
+        dta = Selector.get().getData()
+        root.title(str(dta[0]))
+        Label(root, text="Progress "+ str(dta[1]) +"%", font=(self._dFont['res1'], self._dSize['res1']), fg=self._dColor['res1']).pack(anchor=W, pady=10, padx=10)
+        Label(root, text= str(dta[2]), font=(self._dFont['res1'], self._dSize['res1']), fg=self._dColor['res1']).pack(anchor=W, pady=10, padx=10)
+        Label(root, text="Hash Code : " + str(dta[3]), font=(self._dFont['res1'], self._dSize['res1']), fg=self._dColor['res1']).pack(anchor=W, pady=10, padx=10)
+
+        root.mainloop()
     
     def RoadMapWindow(self):
         self.__clrScr()
