@@ -194,7 +194,6 @@ class MainWindow(Formate):
             x.destroy()
     
     def __edit(self):
-        print("edit")
         self.__save_btn['state'] = "normal"
         for x in self.__desFrm.winfo_children():
             x.destroy()
@@ -209,7 +208,6 @@ class MainWindow(Formate):
         Label(self.__desFrm, text="Hash Code : " + str(dta[3]), font=(self._dFont['res1'], self._dSize['res1']), fg=self._dColor['res1']).pack(anchor=W, pady=10, padx=10)
         
     def __p(self, i:int = 10):
-        print("progress "+str(i))
         dt = Data()
         dt.increment(i, Selector.get())
         self.refresh()
