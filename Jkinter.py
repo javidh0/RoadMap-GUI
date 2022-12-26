@@ -163,6 +163,7 @@ class MainWindow(Formate):
     __desFrm:LabelFrame = None
     __rdFrm = None
     __RdMap:RoadMap = None
+    __oobj:list[SubTask]=None
     __obj:list[SubTask] = None
     __ent:Entry = None
     __save_btn:Button = None
@@ -177,7 +178,8 @@ class MainWindow(Formate):
         self.__rt.geometry('%dx%d'%(width, height))
         objlist = obj.getTask()
         self.__RdMap = obj
-        self.__obj = objlist
+        self.__oobj = objlist
+        self.__obj = objlist[:7]
         Selector.initialize(self, objlist[0])
         self.__ent = Entry(self.__desFrm, width=25, font=(self._dFont['res'], self._dSize['res']))
         self.__desBx = Text(self.__desFrm, width=25, font=(self._dFont['res'], self._dSize['res']))
