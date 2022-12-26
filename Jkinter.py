@@ -166,6 +166,8 @@ class MainWindow(Formate):
     __oobj:list[SubTask]=None
     __obj:list[SubTask] = None
     __ent:Entry = None
+    __start:int = 0
+    __end:int = 7
     __save_btn:Button = None
     __desBx:Text = None
     
@@ -183,6 +185,23 @@ class MainWindow(Formate):
         Selector.initialize(self, objlist[0])
         self.__ent = Entry(self.__desFrm, width=25, font=(self._dFont['res'], self._dSize['res']))
         self.__desBx = Text(self.__desFrm, width=25, font=(self._dFont['res'], self._dSize['res']))
+        self.__rt.bind('<Up>',lambda event:self.__Up())
+        self.__rt.bind('<Down>',lambda event:self.__Down())
+    def __Down(self):
+        if(self.__end == len(self.__oobj)+1):
+            return None
+        self.__start+=1
+        self.__end+=1
+        self.__obj = self.__oobj[self.__start: self.__end]
+        self.refresh(op=0)
+
+    def __Up(self):
+        if(self.__start == 0):
+            return None
+        self.__start-=1
+        self.__end-=1
+        self.__obj = self.__oobj[self.__start: self.__end]
+        self.refresh(op=0)
     
     def ChangeRd(self, obj:RoadMap):
         self.__RdMap = obj
