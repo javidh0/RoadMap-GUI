@@ -157,7 +157,6 @@ class Data:
 
         obj.change(buf['Task'], buf['About'], buf['Progress'], buf['Type'])
         
-
 class MainWindow(Formate):
     __rt = None
     __toolFrm = None
