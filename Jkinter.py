@@ -315,6 +315,8 @@ class Window:
     __frm:Frame = None
     __title = None
     __state = False
+    def __init__(self) -> None:
+        pass
 
     def __init__(self, frm:Frame, title) -> None:
         self.__frm = frm
