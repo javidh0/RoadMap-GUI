@@ -311,16 +311,28 @@ class Hash:
             self.GenerateCode()
         return self.__code    
 
-class Window:
+class Window(Formate):
     __frm:Frame = None
     __title = None
+    __disFrm = None
     __state = False
-    def __init__(self) -> None:
-        pass
+    __rt:Tk = None
 
-    def __init__(self, frm:Frame, title) -> None:
-        self.__frm = frm
-        self.__title = title
+    def __init__(self) -> None:
+        self.__rt = Tk()
+        self.__rt.geometry("1000x1000")
+        self.__rt.title(self._Title)
+        width = self.__rt.winfo_screenwidth() - 50
+        height = self.__rt.winfo_screenheight() - 50
+        self.__rt.geometry('%dx%d'%(width, height))
+    
+    def RoadMap(self):
+        self.__disFrm = LabelFrame(self.__rt)
+        self.__disFrm.place(relx=0.99, rely=0.01, anchor=NE, relheight=0.99, relwidth=0.4)
+    
+    def Enable(self):
+        self.__rt.mainloop()
+
 
 class Security:
     pass
