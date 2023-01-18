@@ -333,6 +333,8 @@ class Window(Formate):
         self.__disFrm.place(relx=0.99, rely=0.01, anchor=NE, relheight=0.98, relwidth=0.585)
         self.__Tlfrm = LabelFrame(self.__rt)
         self.__Tlfrm.place(relx=0.01, rely=0.01, anchor=NW, relheight=0.98, relwidth=0.385)
+        for btns in self.__objs:
+            btns.create(self.__disFrm).pack(pady=30)
     
     def Enable(self):
         self.__rt.mainloop()
