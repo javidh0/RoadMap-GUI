@@ -312,7 +312,7 @@ class Hash:
         return self.__code    
 
 class Window(Formate):
-    __frm:Frame = None
+    __Tlfrm:Frame = None
     __title = None
     __disFrm = None
     __objs:list[RoadMap] = None
@@ -330,7 +330,9 @@ class Window(Formate):
     
     def RoadMap(self):
         self.__disFrm = LabelFrame(self.__rt)
-        self.__disFrm.place(relx=0.99, rely=0.01, anchor=NE, relheight=0.99, relwidth=0.4)
+        self.__disFrm.place(relx=0.99, rely=0.01, anchor=NE, relheight=0.98, relwidth=0.585)
+        self.__Tlfrm = LabelFrame(self.__rt)
+        self.__Tlfrm.place(relx=0.01, rely=0.01, anchor=NW, relheight=0.98, relwidth=0.385)
     
     def Enable(self):
         self.__rt.mainloop()
