@@ -24,9 +24,9 @@ class Selected:
 Selector = Selected()
 
 class Formate(object):
-    _font = {1: ("Consolas", 15), 2:("Consolas", 15), 'res' : ("Consolas", 15), 'res1':("Consolas", 25)}
-    _color= {1: "grey", 2:"grey30"}
-    _size = {1: 18, 2: 18}
+    _font = {1: ("Consolas", 15), 2:("Consolas", 15),3: ("Consolas", 15) ,'res' : ("Consolas", 15), 'res1':("Consolas", 25)}
+    _color= {1: "grey", 2:"grey30",3: 'green'}
+    _size = {1: 18, 2: 18, 3:18}
 
     _Title = "RoadMap"
 
@@ -62,7 +62,7 @@ class SubTask(Formate):
         self.__btn = Button(tk, text=self.__name, font=self._font[self.__type], width=15)
         self.__btn['bg'] = self._color[self.__type]
         self.__btn['command'] = self.__onClick
-        if self.progress > 90:
+        if self.progress > 95:
             self.__btn['bg'] = self.completed['colour']
         return self.__btn
     def getData(self) -> list:
