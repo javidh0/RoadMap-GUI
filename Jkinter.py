@@ -315,16 +315,18 @@ class Window(Formate):
     __frm:Frame = None
     __title = None
     __disFrm = None
+    __objs:list[RoadMap] = None
     __state = False
     __rt:Tk = None
 
-    def __init__(self) -> None:
+    def __init__(self, objs:list[RoadMap]) -> None:
         self.__rt = Tk()
         self.__rt.geometry("1000x1000")
         self.__rt.title(self._Title)
         width = self.__rt.winfo_screenwidth() - 50
         height = self.__rt.winfo_screenheight() - 50
         self.__rt.geometry('%dx%d'%(width, height))
+        self.__objs = objs
     
     def RoadMap(self):
         self.__disFrm = LabelFrame(self.__rt)
