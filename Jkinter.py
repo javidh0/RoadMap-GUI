@@ -21,7 +21,11 @@ class Selected:
         if not ref:
             self.__win.refresh(0)
 
+class Selected1:
+    pass
+
 Selector = Selected()
+Selector1= Selected1()
 
 class Formate(object):
     _font = {1: ("Consolas", 15), 2:("Consolas", 15),3: ("Consolas", 15) ,'res' : ("Consolas", 15), 'res1':("Consolas", 25)}
